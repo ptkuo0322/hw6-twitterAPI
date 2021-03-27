@@ -155,7 +155,7 @@ def make_request_with_cache(baseurl, hashtag, count):
         JSON
     '''
     #TODO Implement function
-    params = {"q": hashtag}
+    params = {"q": hashtag, 'count': count}
     request_result = construct_unique_key(baseurl, params)
     if request_result in CACHE_DICT.keys():
         print("fetching cached data")
@@ -186,20 +186,17 @@ def find_most_common_cooccurring_hashtag(tweet_data, hashtag_to_ignore):
     # TODO: Implement function 
     # create a empty list and dictionary for future use
     test_dict = {} 
-    temp_list = []
     # define string_hashtag with lowercase to delete the hashtag_to_ignore
     string_hashtag = hashtag_to_ignore[1:].lower()
-    # extract the element with hashtag to a newlist
-    for x in tweet_data["statuses"]:
-        temp_list.append(x["entities"]["hashtags"])
-    # create a dictionary to calcuate the number of all the co-occuring hashtag
-    for ele in temp_list:
-        for ele1 in ele:
+    # extract the element with hashtag to a new dictionary
+    data = tweet_data["statuses"]
+    for d in data:
+        for ele1 in d["entities"]["hashtags"]:
             if ele1["text"] not in test_dict:  # first shown, set as one
                 test_dict[ele1["text"]] = 1
             else:
                 test_dict[ele1["text"]] = test_dict[ele1["text"]]+1 # increase the number if it already exists
-    # New dictionary without the hashtag_to_ignore.
+    #New dictionary without the hashtag_to_ignore.
     test_dict2 = {}
     for key,value in test_dict.items():
         if key.lower() != string_hashtag: # if key equals to hashtag_to_ignore, remove it
