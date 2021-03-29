@@ -6,15 +6,16 @@
 from requests_oauthlib import OAuth1
 import json
 import requests
-import hw6_secrets_starter as secrets 
+# import hw6_secrets_starter as secrets 
 
 CACHE_FILENAME = "twitter_cache.json"
 CACHE_DICT = {}
 
-client_key = secrets.TWITTER_API_KEY
-client_secret = secrets.TWITTER_API_SECRET
-access_token = secrets.TWITTER_ACCESS_TOKEN
-access_token_secret = secrets.TWITTER_ACCESS_TOKEN_SECRET
+
+client_key = 'J3ijsksCYWvQsict2KVzXhViK'
+client_secret = 'eCNxtTDIOt5jCZxjxzdNSwXXEcQCxxkGVLc05vbEfOSvccDIak' 
+access_token = '1375350359263227905-tRBLnao62hrpa4DOMHVF7cYXiBNqfr'
+access_token_secret = 'ppA2r4h3NZPHJXVgcOxbpg2f2DVrd4Yq6eTweNddgE1Ws'
 
 oauth = OAuth1(client_key,
             client_secret=client_secret,
@@ -98,7 +99,7 @@ def construct_unique_key(baseurl, params):
     # from docstring : all the key-value pairs from params >>> implies multiple key-value pairs
     key_value_pair = [] 
     separator = "_"
-    for key in params.keys():
+    for key,val in sorted(params.items()):
         key_value_pair.append(f"{key}_{params[key]}")
     # string.join(ierable) It joins each element of an iterable (such as list, string, and tuple) 
     # by a string separator (the string on which the join() method is called) 
@@ -202,7 +203,7 @@ def find_most_common_cooccurring_hashtag(tweet_data, hashtag_to_ignore):
         if key.lower() != string_hashtag: # if key equals to hashtag_to_ignore, remove it
             test_dict2[key] = value
     sorted_orders = sorted(test_dict2.items(), key=lambda x:x[1], reverse=True) # sorted the dictionary in ascending
-    return "#" + sorted_orders[0][0]
+    return "#" + sorted_orders[0][0].lower()
     
     ''' Hint: In case you're confused about the hashtag_to_ignore 
     parameter, we want to ignore the hashtag we queried because it would 
